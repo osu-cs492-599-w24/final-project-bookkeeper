@@ -1,0 +1,2 @@
+# Book Keeper
+Book Keeper is a mobile application designed to enhance the reading experience for avid and casual readers alike. The app will allow users to search for books, add them to a personalized library, track their reading progress, and take notes on each book. It provides a user-friendly interface and allows users to access a database of books via [Open Library's Book API](https://openlibrary.org/developers/api) to create an interactive reading management system.
