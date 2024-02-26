@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Book Keeper</string>
+    <string name="library_button">Your Library</string>
+    <string name="browse_button">Browse Books</string>
+
+    <string name="label_home_page">Book Keeper</string>
 </resources>
