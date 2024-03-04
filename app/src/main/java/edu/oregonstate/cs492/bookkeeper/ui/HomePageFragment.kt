@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import edu.oregonstate.cs492.bookkeeper.R
 
 class HomePageFragment : Fragment(R.layout.fragment_home) {
@@ -19,11 +20,13 @@ class HomePageFragment : Fragment(R.layout.fragment_home) {
         browseBtn = view.findViewById(R.id.btn_browse_books)
 
         libraryBtn.setOnClickListener{
-            Log.d(tag, "View Library Button Clicked!")
+            val directions = HomePageFragmentDirections.navigateToLibrary()
+            findNavController().navigate(directions)
         }
 
         browseBtn.setOnClickListener{
-            Log.d(tag, "Browse Button Clicked!")
+            val directions = HomePageFragmentDirections.navigateToBrowseBooks()
+            findNavController().navigate(directions)
         }
     }
 }

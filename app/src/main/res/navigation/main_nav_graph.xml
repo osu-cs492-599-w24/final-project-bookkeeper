@@ -9,6 +9,26 @@
         android:id="@+id/home_page"
         android:name="edu.oregonstate.cs492.bookkeeper.ui.HomePageFragment"
         android:label="@string/label_home_page" >
+
+        <action
+            android:id="@+id/navigate_to_library"
+            app:destination="@id/library" />
+
+        <action
+            android:id="@+id/navigate_to_browse_books"
+            app:destination="@id/browse_books" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/library"
+        android:name="edu.oregonstate.cs492.bookkeeper.ui.LibraryFragment"
+        android:label="@string/label_library" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/browse_books"
+        android:name="edu.oregonstate.cs492.bookkeeper.ui.BrowseBooksFragment"
+        android:label="@string/label_browse_books" >
     </fragment>
 
 </navigation>
