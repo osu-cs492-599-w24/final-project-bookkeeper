@@ -7,7 +7,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import com.squareup.moshi.Moshi
 import edu.oregonstate.cs492.bookkeeper.R
+import edu.oregonstate.cs492.bookkeeper.data.BookJsonAdapter
+import edu.oregonstate.cs492.bookkeeper.data.BookSearch
+import edu.oregonstate.cs492.bookkeeper.data.OpenLibraryBookJsonAdapter
 import edu.oregonstate.cs492.bookkeeper.data.OpenLibraryService
 import retrofit2.Callback
 import retrofit2.Call
@@ -38,7 +42,27 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
                 Log.d(tag, "Library call body: ${response.body()}")
 
                 if (response.isSuccessful) {
-                    return
+                    val moshi = Moshi.Builder()
+                        .add(OpenLibraryBookJsonAdapter())
+                        .build()
+
+                    val jsonAdapter = moshi.adapter(BookSearch::class.java)
+                    val searchResults = response.body()?.let { jsonAdapter.fromJson(it) }
+
+                    Log.d(tag, "Moshi adapted books: ")
+                    searchResults?.books?.forEachIndexed {index, book ->
+                        Log.d(tag, "Book ${index + 1}: $book")
+                    }
+
+                    //remove any books that don't have an author or don't have a cover
+                    searchResults?.books?.removeIf {book ->
+                        book.author.isNullOrEmpty() || book.coverURL.isNullOrEmpty()
+                    }
+
+                    Log.d(tag, "Filtered books: ")
+                    searchResults?.books?.forEachIndexed {index, book ->
+                        Log.d(tag, "Book ${index + 1}: $book")
+                    }
                 }
             }
 
