@@ -3,7 +3,6 @@ package edu.oregonstate.cs492.bookkeeper.data
 import android.util.Log
 import java.io.Serializable
 import com.squareup.moshi.FromJson
-import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.ToJson
 
@@ -14,7 +13,7 @@ data class Book(
     val coverURL: String? = null,
     val rating: Float? = null,
     val ratingCount: Int? = null
-)
+) : Serializable
 
 @JsonClass(generateAdapter = true)
 data class BookJson(
