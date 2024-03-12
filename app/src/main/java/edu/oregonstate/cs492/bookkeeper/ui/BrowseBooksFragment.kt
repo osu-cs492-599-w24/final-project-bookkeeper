@@ -34,11 +34,11 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
         }
 
         viewModel.loadingStatus.observe(viewLifecycleOwner) {
-                loadingStatus -> Log.d(tag, "Loading status: $loadingStatus")
+            loadingStatus -> Log.d(tag, "Loading status: $loadingStatus")
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
-                error -> Log.d(tag, "Error: $error")
+            error -> Log.d(tag, "Error: $error")
         }
 
     }
