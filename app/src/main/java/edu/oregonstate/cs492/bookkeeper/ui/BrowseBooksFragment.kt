@@ -1,46 +1,46 @@
 package edu.oregonstate.cs492.bookkeeper.ui
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.oregonstate.cs492.bookkeeper.R
 import edu.oregonstate.cs492.bookkeeper.data.BookSearch
-import edu.oregonstate.cs492.bookkeeper.data.OpenLibraryService
-import androidx.fragment.app.viewModels
 
 
 class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     private val tag = "BrowseBooksFragment"
     private val viewModel: BookSearchViewModel by viewModels()
 
+    private lateinit var forecastAdapter: ForecastAdapter
+    private lateinit var booksRecyclerView: RecyclerView
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val searchBoxET: EditText = view.findViewById(R.id.et_search_box)
-        val searchBtn: Button = view.findViewById(R.id.btn_search)
+        booksRecyclerView = view.findViewById(R.id.books_recycler_view)
+        forecastAdapter = ForecastAdapter()  // Initialize your adapter here
+        booksRecyclerView.adapter = forecastAdapter  // Set the adapter
+        booksRecyclerView.layoutManager = LinearLayoutManager(context)  // Set the layout manager
 
-        viewModel.searchResults.observe(viewLifecycleOwner) {
-            searchResults -> filterSearchResults(searchResults)
+        viewModel.searchResults.observe(viewLifecycleOwner) { searchResults ->
+            filterSearchResults(searchResults)
+            // TODO update the adapter with filtered data
+            // forecastAdapter.books = searchResults?.books ?: listOf()
+            // forecastAdapter.notifyDataSetChanged()
         }
 
         viewModel.loadingStatus.observe(viewLifecycleOwner) {
-            loadingStatus -> Log.d(tag, "Loading status: $loadingStatus")
+                loadingStatus -> Log.d(tag, "Loading status: $loadingStatus")
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
-            error -> Log.d(tag, "Error: $error")
+                error -> Log.d(tag, "Error: $error")
         }
 
-        searchBtn.setOnClickListener {
-            val query = searchBoxET.text.toString()
-            if (!TextUtils.isEmpty(query)) {
-                viewModel.loadSearchResults(query)
-            }
-        }
     }
 
 
