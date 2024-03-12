@@ -13,7 +13,7 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_books_hint"
+            android:hint="@string/label_search_books_hint"
             android:layout_margin="8dp" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -27,7 +27,7 @@
     <com.google.android.material.search.SearchView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="@string/search_books_hint"
+        android:hint="@string/label_search_books_hint"
         app:layout_anchor="@id/appBarLayout" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
