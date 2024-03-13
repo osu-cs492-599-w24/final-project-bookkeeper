@@ -27,4 +27,6 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getNotesByBook(title: String, author: String) =
         repository.getNotesByBook(title, author).asLiveData()
+
+    fun getAllNotes() = repository.getAllNotes().asLiveData()
 }
