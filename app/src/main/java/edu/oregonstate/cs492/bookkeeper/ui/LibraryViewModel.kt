@@ -27,6 +27,9 @@ class LibraryViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    fun getBook(title: String, author: String) =
+        repository.getBook(title, author).asLiveData()
+
     fun getBookByTitleOrAuthor(query: String) =
         repository.getBookByTitleOrAuthor(query).asLiveData()
 }

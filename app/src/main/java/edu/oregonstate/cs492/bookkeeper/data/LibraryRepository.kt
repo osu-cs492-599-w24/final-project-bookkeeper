@@ -8,6 +8,8 @@ class LibraryRepository (
 
     suspend fun deleteBook(book: LibraryBook) = dao.delete(book)
 
+    fun getBook(title: String, author: String) = dao.getBook(title, author)
+
     fun getAllBooks() = dao.getAllBooks()
     fun getBookByTitleOrAuthor(query: String) = dao.getBookByTitleOrAuthor(query)
 }
