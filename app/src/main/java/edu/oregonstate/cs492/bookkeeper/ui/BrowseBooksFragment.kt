@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.search.SearchBar
+import com.google.android.material.search.SearchView
 import edu.oregonstate.cs492.bookkeeper.R
 import edu.oregonstate.cs492.bookkeeper.data.BookSearch
 
@@ -17,20 +19,34 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
 
     private lateinit var browseBooksAdapter: BrowseBooksAdapter
     private lateinit var booksRecyclerView: RecyclerView
+    private lateinit var searchBar: SearchBar
+    private lateinit var searchView: SearchView
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         booksRecyclerView = view.findViewById(R.id.books_recycler_view)
-        browseBooksAdapter = BrowseBooksAdapter()  // Initialize your adapter here
-        booksRecyclerView.adapter = browseBooksAdapter  // Set the adapter
-        booksRecyclerView.layoutManager = LinearLayoutManager(context)  // Set the layout manager
+        browseBooksAdapter = BrowseBooksAdapter(emptyList())
+        booksRecyclerView.adapter = browseBooksAdapter
+        booksRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        searchBar = view.findViewById(R.id.search_bar)
+        searchView = view.findViewById(R.id.search_view)
+
+        searchView
+            .editText
+            .setOnEditorActionListener { _, _, _ ->
+                searchBar.setText(searchView.text)
+                searchView.hide()
+                viewModel.loadSearchResults(searchView.text.toString())
+                true
+            }
+
 
         viewModel.searchResults.observe(viewLifecycleOwner) { searchResults ->
             filterSearchResults(searchResults)
-            // TODO update the adapter with filtered data
-            // forecastAdapter.books = searchResults?.books ?: listOf()
-            // forecastAdapter.notifyDataSetChanged()
+            browseBooksAdapter.updateBookList(searchResults?.books)
         }
 
         viewModel.loadingStatus.observe(viewLifecycleOwner) {

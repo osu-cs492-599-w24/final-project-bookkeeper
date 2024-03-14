@@ -50,6 +50,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("com.github.bumptech.glide:glide:4.14.2")
 
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.google.devtools.ksp:symbol-processing-api:1.9.22-1.0.17")
