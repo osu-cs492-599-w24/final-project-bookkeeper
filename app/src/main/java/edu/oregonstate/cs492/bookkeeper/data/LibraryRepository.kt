@@ -6,7 +6,7 @@ class LibraryRepository (
 
     suspend fun insertBook(book: LibraryBook) = dao.insert(book)
 
-    suspend fun deleteBook(book: LibraryBook) = dao.delete(book)
+    suspend fun deleteBook(title: String, author: String) = dao.delete(title, author)
 
     fun getBook(title: String, author: String) = dao.getBook(title, author)
 

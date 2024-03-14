@@ -12,8 +12,8 @@ interface LibraryBookDao {
     @Insert (onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(book: LibraryBook)
 
-    @Delete
-    suspend fun delete(book: LibraryBook)
+    @Query("DELETE FROM library WHERE title = :title AND author = :author")
+    suspend fun delete(title: String, author: String)
 
     @Query("SELECT * FROM library")
     fun getAllBooks() : Flow<List<LibraryBook>>
