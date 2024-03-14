@@ -21,9 +21,9 @@ class LibraryViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun removeBook(book: LibraryBook) {
+    fun removeBook(title: String, author: String) {
         viewModelScope.launch {
-            repository.deleteBook(book)
+            repository.deleteBook(title, author)
         }
     }
 
