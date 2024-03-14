@@ -3,6 +3,7 @@ package edu.oregonstate.cs492.bookkeeper.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,14 +11,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import edu.oregonstate.cs492.bookkeeper.R
+import edu.oregonstate.cs492.bookkeeper.data.Book
 import edu.oregonstate.cs492.bookkeeper.data.BookSearch
+import edu.oregonstate.cs492.bookkeeper.data.LibraryBook
 
 
 class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     private val tag = "BrowseBooksFragment"
     private val viewModel: BookSearchViewModel by viewModels()
+    private val libraryViewModel: LibraryViewModel by viewModels()
+    private lateinit var libraryBooks: List<LibraryBook>
 
-    private lateinit var browseBooksAdapter: BrowseBooksAdapter
+    private val browseBooksAdapter = BrowseBooksAdapter(::onBookClick, ::setButtonText)
     private lateinit var booksRecyclerView: RecyclerView
     private lateinit var searchBar: SearchBar
     private lateinit var searchView: SearchView
@@ -43,6 +48,11 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
                 true
             }
 
+
+        //observe library books in order to see if a searched book can be added or removed
+        libraryViewModel.libraryBooks.observe(viewLifecycleOwner) { books ->
+            libraryBooks = books
+        }
 
         viewModel.searchResults.observe(viewLifecycleOwner) { searchResults ->
             filterSearchResults(searchResults)
@@ -78,5 +88,43 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
 
     }
 
+    // set a searched book's button to add/remove based on whether or not it's in the library
+    private fun setButtonText(book: Book, button: Button) {
+        book.author?.let {
+            libraryViewModel.getBook(book.title, book.author).observe(viewLifecycleOwner) {
+                book ->
+                when (book) {
+                    null -> button.text = "Add"
+                    else -> button.text = "Remove"
+                }
+            }
+        }
+    }
+
+    private fun onBookClick(book: Book) {
+        book.author?.let {
+            // check if a matching book is in the library
+            val testBook = libraryBooks.any { libraryBook ->
+                libraryBook.title == book.title && libraryBook.author == book.author
+            }
+
+            // either add or remove the book based on it being in the library
+            if (testBook) {
+                libraryViewModel.removeBook(book.title, book.author)
+            } else {
+                libraryViewModel.addBook(
+                    LibraryBook(
+                        book.title,
+                        book.author,
+                        book.coverURL?: "",
+                        book.rating,
+                        book.ratingCount,
+                        book.amazonLink,
+                        book.pageCount ?: 0
+                    )
+                )
+            }
+        }
+    }
 
 }
