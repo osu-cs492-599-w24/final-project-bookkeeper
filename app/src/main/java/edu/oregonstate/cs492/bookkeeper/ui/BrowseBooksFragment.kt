@@ -15,15 +15,15 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     private val tag = "BrowseBooksFragment"
     private val viewModel: BookSearchViewModel by viewModels()
 
-    private lateinit var forecastAdapter: ForecastAdapter
+    private lateinit var browseBooksAdapter: BrowseBooksAdapter
     private lateinit var booksRecyclerView: RecyclerView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         booksRecyclerView = view.findViewById(R.id.books_recycler_view)
-        forecastAdapter = ForecastAdapter()  // Initialize your adapter here
-        booksRecyclerView.adapter = forecastAdapter  // Set the adapter
+        browseBooksAdapter = BrowseBooksAdapter()  // Initialize your adapter here
+        booksRecyclerView.adapter = browseBooksAdapter  // Set the adapter
         booksRecyclerView.layoutManager = LinearLayoutManager(context)  // Set the layout manager
 
         viewModel.searchResults.observe(viewLifecycleOwner) { searchResults ->

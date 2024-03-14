@@ -11,7 +11,7 @@ interface OpenLibraryService {
     @GET("search.json")
     suspend fun getBooks(
         @Query("q") query: String,
-        @Query("fields") fields: String? = "title,author_name,cover_i,ratings_average,ratings_count",
+        @Query("fields") fields: String? = "title,author_name,cover_i,ratings_average,ratings_count,id_amazon,number_of_pages_median",
         @Query("sort") sort: String? = null,
         @Query("lang") lang: String? = null,
         @Query("limit") limit: Int? = 20,

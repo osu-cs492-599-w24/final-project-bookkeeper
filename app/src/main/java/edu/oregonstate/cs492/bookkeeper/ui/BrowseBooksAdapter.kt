@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.oregonstate.cs492.bookkeeper.R
 import edu.oregonstate.cs492.bookkeeper.data.Book
 
-class ForecastAdapter() : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
+class BrowseBooksAdapter() : RecyclerView.Adapter<BrowseBooksAdapter.ViewHolder>() {
     // TODO update to actual data not hardcoded
     var books = listOf(
         Book(
@@ -67,8 +67,8 @@ class ForecastAdapter() : RecyclerView.Adapter<ForecastAdapter.ViewHolder>() {
 
         private lateinit var currentBook: Book
 
-        fun bind(forecastPeriod: Book) {
-            currentBook = forecastPeriod
+        fun bind(book: Book) {
+            currentBook = book
 
             val ctx = itemView.context
 
