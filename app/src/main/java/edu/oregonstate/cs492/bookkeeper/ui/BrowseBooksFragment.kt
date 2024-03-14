@@ -22,7 +22,7 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     private val libraryViewModel: LibraryViewModel by viewModels()
     private lateinit var libraryBooks: List<LibraryBook>
 
-    private val browseBooksAdapter = BrowseBooksAdapter(::onBookClick, ::setButtonText)
+    private val browseBooksAdapter = BrowseBooksAdapter(emptyList(), ::onBookClick, ::setButtonText)
     private lateinit var booksRecyclerView: RecyclerView
     private lateinit var searchBar: SearchBar
     private lateinit var searchView: SearchView
@@ -32,7 +32,6 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
         super.onViewCreated(view, savedInstanceState)
 
         booksRecyclerView = view.findViewById(R.id.books_recycler_view)
-        browseBooksAdapter = BrowseBooksAdapter(emptyList())
         booksRecyclerView.adapter = browseBooksAdapter
         booksRecyclerView.layoutManager = LinearLayoutManager(context)
 
