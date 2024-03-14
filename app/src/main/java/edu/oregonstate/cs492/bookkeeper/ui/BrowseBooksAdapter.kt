@@ -8,49 +8,21 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import edu.oregonstate.cs492.bookkeeper.R
 import edu.oregonstate.cs492.bookkeeper.data.Book
 
 class BrowseBooksAdapter(
+    private var books: List<Book>,
     private val onBookClick: (Book) -> Unit,
     private val setButtonText: (Book, Button) -> Unit
 ) : RecyclerView.Adapter<BrowseBooksAdapter.ViewHolder>() {
-    // TODO update to actual data not hardcoded
-    var books = listOf(
-        Book(
-            title = "Book Title 1",
-            author = "Author Name 1",
-            coverURL = "https://covers.openlibrary.org/b/id/1-M.jpg",
 
-        ),
-        Book(
-            title = "Book Title 2",
-            author = "Author Name 2",
-            coverURL = "https://covers.openlibrary.org/b/id/2-M.jpg",
-        ),
-        Book(
-            title = "Book Title 3",
-            author = "Author Name 3",
-            coverURL = "https://covers.openlibrary.org/b/id/3-M.jpg",
-        ),
-        Book(
-            title = "Book Title 4",
-            author = "Author Name 4",
-            coverURL = "https://covers.openlibrary.org/b/id/4-M.jpg",
-        ),
-        Book(
-            title = "Book Title 5",
-            author = "Author Name 5",
-            coverURL = "https://covers.openlibrary.org/b/id/5-M.jpg",
-        ),
-        Book(
-            title = "Book Title 6",
-            author = "Author Name 6",
-            coverURL = "https://covers.openlibrary.org/b/id/5-M.jpg",
-        )
-
-    )
-
+    fun updateBookList(newBookList: List<Book>?){
+        notifyItemRangeRemoved(0, books.size)
+        books = newBookList ?: listOf()
+        notifyItemRangeInserted(0, books.size)
+    }
 
     override fun getItemCount() = books.size
 
@@ -90,7 +62,12 @@ class BrowseBooksAdapter(
             // TODO Load the image, properly handle rating
             titleTV.text = currentBook.title
             authorTV.text = currentBook.author
-            // ratingTV.text = currentBook.rating.toString()
+            ratingTV.text = String.format("%.2f", currentBook.rating)
+
+            Glide.with(ctx)
+                .load(currentBook.coverURL)
+                .fitCenter()
+                .into(coverIV)
 
             setButtonText(currentBook, button)
     }
