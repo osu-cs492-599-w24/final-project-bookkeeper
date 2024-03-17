@@ -15,6 +15,9 @@ interface LibraryBookDao {
     @Query("DELETE FROM library WHERE title = :title AND author = :author")
     suspend fun delete(title: String, author: String)
 
+    @Query("DELETE FROM library")
+    suspend fun deleteAll()
+
     @Query("SELECT * FROM library")
     fun getAllBooks() : Flow<List<LibraryBook>>
 

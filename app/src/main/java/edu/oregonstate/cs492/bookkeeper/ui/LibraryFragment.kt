@@ -3,8 +3,11 @@ package edu.oregonstate.cs492.bookkeeper.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.GridLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.oregonstate.cs492.bookkeeper.R
 import edu.oregonstate.cs492.bookkeeper.data.LibraryBook
 import edu.oregonstate.cs492.bookkeeper.data.Note
@@ -17,18 +20,39 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
     private lateinit var books: List<LibraryBook>
     private var notes: MutableList<Note> = mutableListOf()
 
+    private val libraryAdapter = LibraryAdapter(emptyList(), ::onLibraryBookClick)
+    private  lateinit var libraryRecyclerView: RecyclerView
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        libraryRecyclerView = view.findViewById(R.id.library_recycler_view)
+        libraryRecyclerView.adapter = libraryAdapter
+        libraryRecyclerView.layoutManager = GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+
+
 
         viewModel.libraryBooks.observe(viewLifecycleOwner) {books ->
             Log.d(tag, "\nBooks in library:\n")
             books.forEach { book ->
                 Log.d(tag, "Book: $book")
             }
+            libraryAdapter.updateLibraryList(books)
         }
 
-        createTestingData()
-        testDbQueries()
+
+        //deleteDB()
+        //createTestingData()
+        //testDbQueries()
+    }
+
+    private fun onLibraryBookClick(book: LibraryBook){
+        Log.d(tag, "Book clicked: ${book.title}")
+    }
+
+    private fun deleteDB() {
+        viewModel.removeAllBooks()
     }
 
     private fun createTestingData() {
@@ -36,7 +60,7 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
             LibraryBook(
                 title = "Book 1",
                 author = "Author 1",
-                coverURL = "https://example.com/book1_cover.jpg",
+                coverURL = "https://covers.openlibrary.org/b/id/12818862-M.jpg",
                 rating = 4.5f,
                 ratingCount = 100,
                 amazonLink = "https://www.amazon.com/book1"
@@ -44,13 +68,13 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
             LibraryBook(
                 title = "Book 2",
                 author = "Author 2",
-                coverURL = "https://example.com/book2_cover.jpg",
+                coverURL = "https://covers.openlibrary.org/b/id/12818862-M.jpg",
                 amazonLink = "https://www.amazon.com/book2"
             ),
             LibraryBook(
                 title = "Book 3",
                 author = "Author 3",
-                coverURL = "https://example.com/book3_cover.jpg"
+                coverURL = "https://covers.openlibrary.org/b/id/12818862-M.jpg"
             )
         )
 
