@@ -4,18 +4,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
 import edu.oregonstate.cs492.bookkeeper.R
 import edu.oregonstate.cs492.bookkeeper.data.Book
 
 class BrowseBooksAdapter(
     private var books: List<Book>,
     private val onBookClick: (Book) -> Unit,
-    private val setButtonText: (Book, Button) -> Unit
+    private val setButtonText: (Book, MaterialButton) -> Unit
 ) : RecyclerView.Adapter<BrowseBooksAdapter.ViewHolder>() {
 
     fun updateBookList(newBookList: List<Book>?){
@@ -44,7 +44,7 @@ class BrowseBooksAdapter(
         private val titleTV = itemView.findViewById<TextView>(R.id.book_title)
         private val authorTV = itemView.findViewById<TextView>(R.id.book_author)
         private val ratingTV = itemView.findViewById<TextView>(R.id.book_rating)
-        private val button = itemView.findViewById<Button>(R.id.book_button)
+        private val button = itemView.findViewById<MaterialButton>(R.id.book_button)
 
         private lateinit var currentBook: Book
 
@@ -54,7 +54,7 @@ class BrowseBooksAdapter(
             }
         }
 
-        fun bind(book: Book, setButtonText:(Book, Button) -> Unit) {
+        fun bind(book: Book, setButtonText:(Book, MaterialButton) -> Unit) {
             currentBook = book
 
             val ctx = itemView.context
