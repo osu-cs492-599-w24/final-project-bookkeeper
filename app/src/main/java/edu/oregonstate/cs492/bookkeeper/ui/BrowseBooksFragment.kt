@@ -1,13 +1,17 @@
 package edu.oregonstate.cs492.bookkeeper.ui
 
 import android.os.Bundle
+import android.text.Html
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
 import edu.oregonstate.cs492.bookkeeper.R
@@ -88,19 +92,21 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     }
 
     // set a searched book's button to add/remove based on whether or not it's in the library
-    private fun setButtonText(book: Book, button: Button) {
+    private fun setButtonText(book: Book, button: MaterialButton) {
         book.author?.let {
             libraryViewModel.getBook(book.title, book.author).observe(viewLifecycleOwner) {
                 book ->
                 when (book) {
-                    null -> button.text = "Add"
-                    else -> button.text = "Remove"
+                    null -> button.setIconResource(R.drawable.add_book)
+                    else -> button.setIconResource(R.drawable.remove_book)
                 }
             }
         }
     }
 
     private fun onBookClick(book: Book) {
+        var snackbarMessage: String
+
         book.author?.let {
             // check if a matching book is in the library
             val testBook = libraryBooks.any { libraryBook ->
@@ -110,6 +116,8 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
             // either add or remove the book based on it being in the library
             if (testBook) {
                 libraryViewModel.removeBook(book.title, book.author)
+                snackbarMessage = "removed from library"
+
             } else {
                 libraryViewModel.addBook(
                     LibraryBook(
@@ -122,8 +130,14 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
                         book.pageCount ?: 0
                     )
                 )
+                snackbarMessage = "added to library"
             }
+
+            Snackbar.make(
+                requireView(),
+                Html.fromHtml("<i>${book.title}</i> $snackbarMessage"),
+                Snackbar.LENGTH_LONG
+            ).show()
         }
     }
-
 }
