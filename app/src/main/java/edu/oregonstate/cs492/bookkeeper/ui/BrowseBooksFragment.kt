@@ -144,14 +144,14 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     }
 
     private fun onCartClick(book: Book) {
-        var intent = requireContext().packageManager.getLaunchIntentForPackage("com.amazon.mShop.android.shopping")
-
-        if (intent != null) {
-            intent.data = Uri.parse(book.amazonLink)
-        } else {
-            intent = Intent(Intent.ACTION_VIEW, Uri.parse(book.amazonLink))
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(book.amazonLink)))
+        } catch (e: Exception) {
+            Snackbar.make(
+                requireView(),
+                "Error opening link in browser",
+                Snackbar.LENGTH_LONG
+            ).show()
         }
-
-        startActivity(intent)
     }
 }
