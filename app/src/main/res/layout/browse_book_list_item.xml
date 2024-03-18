@@ -71,6 +71,16 @@
             app:layout_constraintStart_toEndOf="@+id/book_cover" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/buy_book_button"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            app:icon="@drawable/shopping_cart"
+            app:iconGravity="top"
+            android:layout_marginEnd="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/book_button" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/book_button"
             android:layout_width="38dp"
             android:layout_height="38dp"
