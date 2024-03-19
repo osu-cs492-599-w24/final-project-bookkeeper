@@ -15,7 +15,8 @@ import edu.oregonstate.cs492.bookkeeper.data.Book
 class BrowseBooksAdapter(
     private var books: List<Book>,
     private val onBookClick: (Book) -> Unit,
-    private val setButtonText: (Book, MaterialButton) -> Unit
+    private val setButtonText: (Book, MaterialButton) -> Unit,
+    private val onCartClick: (Book) -> Unit
 ) : RecyclerView.Adapter<BrowseBooksAdapter.ViewHolder>() {
 
     fun updateBookList(newBookList: List<Book>?){
@@ -29,7 +30,7 @@ class BrowseBooksAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.browse_book_list_item, parent, false)
-        return ViewHolder(view, onBookClick)
+        return ViewHolder(view, onBookClick, onCartClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -38,19 +39,25 @@ class BrowseBooksAdapter(
 
     class ViewHolder(
         itemView: View,
-        onClick: (Book) -> Unit
+        onClick: (Book) -> Unit,
+        onCartClick: (Book) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
         private val coverIV : ImageView = itemView.findViewById(R.id.book_cover)
         private val titleTV = itemView.findViewById<TextView>(R.id.book_title)
         private val authorTV = itemView.findViewById<TextView>(R.id.book_author)
         private val ratingTV = itemView.findViewById<TextView>(R.id.book_rating)
         private val button = itemView.findViewById<MaterialButton>(R.id.book_button)
+        private val cartButton = itemView.findViewById<MaterialButton>(R.id.buy_book_button)
 
         private lateinit var currentBook: Book
 
         init {
             button.setOnClickListener{
                 onClick(currentBook)
+            }
+
+            cartButton.setOnClickListener {
+                onCartClick(currentBook)
             }
         }
 
@@ -70,6 +77,13 @@ class BrowseBooksAdapter(
                 .into(coverIV)
 
             setButtonText(currentBook, button)
+
+            //hide buy book button if there is no amazon link
+            if (currentBook.amazonLink.isNullOrEmpty()) {
+                cartButton.visibility = View.GONE
+            } else {
+                cartButton.visibility = View.VISIBLE
+            }
     }
 }
 
