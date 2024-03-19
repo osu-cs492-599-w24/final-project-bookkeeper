@@ -11,7 +11,6 @@ class RecentSearchAdapter(
     private var recentSearches: List<String>,
     private val onSearchClick: (String) -> Unit
 ) : RecyclerView.Adapter<RecentSearchAdapter.RecentSearchViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecentSearchViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.recent_search_item, parent, false)
@@ -25,9 +24,12 @@ class RecentSearchAdapter(
 
     override fun getItemCount(): Int = recentSearches.size
 
+    fun getRecentSearches(): List<String> {
+        return recentSearches
+    }
     fun updateRecentSearches(newRecentSearches: List<String>) {
-        recentSearches = newRecentSearches
-        notifyItemInserted(0)
+        recentSearches = newRecentSearches.toList()
+        notifyDataSetChanged()
     }
 
     inner class RecentSearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -50,10 +50,6 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
         recentSearchRecyclerView.adapter = recentSearchAdapter
         recentSearchRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        // Add dummy data for recent searches
-        val dummyRecentSearches = listOf("Book 1", "Book 2", "Book 3")
-        recentSearchAdapter.updateRecentSearches(dummyRecentSearches)
-
         searchBar = view.findViewById(R.id.search_bar)
         searchView = view.findViewById(R.id.search_view)
         val bottomNav: BottomNavigationView? = activity?.findViewById(R.id.bottom_nav)
@@ -76,9 +72,11 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
         searchView
             .editText
             .setOnEditorActionListener { _, _, _ ->
-                searchBar.setText(searchView.text)
+                val searchQuery = searchView.text.toString()
+                searchBar.setText(searchQuery)
                 searchView.hide()
-                viewModel.loadSearchResults(searchView.text.toString())
+                viewModel.loadSearchResults(searchQuery)
+                addRecentSearch(searchQuery)
                 true
             }
 
@@ -197,10 +195,27 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
         }
     }
 
-    // Function to handle recent search click
     private fun onRecentSearchClick(recentSearch: String) {
         searchBar.setText(recentSearch)
         searchView.hide()
         viewModel.loadSearchResults(recentSearch)
+        addRecentSearch(recentSearch)
+    }
+
+    private fun addRecentSearch(searchQuery: String) {
+        val currentRecentSearches = recentSearchAdapter.getRecentSearches().toMutableList()
+
+        // Remove the search query if it already exists in the list
+        currentRecentSearches.remove(searchQuery)
+
+        // Add the new search query to the beginning of the list
+        val updatedRecentSearches = mutableListOf(searchQuery)
+        updatedRecentSearches.addAll(currentRecentSearches)
+
+
+        val maxRecentSearches = 10
+        val limitedRecentSearches = updatedRecentSearches.take(maxRecentSearches)
+
+        recentSearchAdapter.updateRecentSearches(limitedRecentSearches)
     }
 }
