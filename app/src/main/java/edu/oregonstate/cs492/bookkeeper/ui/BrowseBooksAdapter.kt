@@ -1,6 +1,5 @@
 package edu.oregonstate.cs492.bookkeeper.ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +22,11 @@ class BrowseBooksAdapter(
         notifyItemRangeRemoved(0, books.size)
         books = newBookList ?: listOf()
         notifyItemRangeInserted(0, books.size)
+    }
+
+    fun clearBookList() {
+        books = emptyList()
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = books.size

@@ -80,6 +80,7 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
                 searchBar.setText(searchQuery)
                 searchView.hide()
                 viewModel.loadSearchResults(searchQuery)
+                browseBooksAdapter.clearBookList()
                 addRecentSearch(searchQuery)
                 true
             }
@@ -202,6 +203,7 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     private fun onRecentSearchClick(recentSearch: String) {
         searchBar.setText(recentSearch)
         searchView.hide()
+        browseBooksAdapter.clearBookList()
         viewModel.loadSearchResults(recentSearch)
         addRecentSearch(recentSearch)
     }
