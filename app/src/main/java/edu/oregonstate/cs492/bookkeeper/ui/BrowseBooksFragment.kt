@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.search.SearchBar
@@ -35,6 +36,7 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     private lateinit var loadingIndicator: CircularProgressIndicator
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,6 +46,22 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
 
         searchBar = view.findViewById(R.id.search_bar)
         searchView = view.findViewById(R.id.search_view)
+        val bottomNav: BottomNavigationView? = activity?.findViewById(R.id.bottom_nav)
+
+        // Hide bottom navbar after clicking on searchbar
+        searchView.addTransitionListener { _, _, newState ->
+            if (newState == SearchView.TransitionState.SHOWING) {
+                bottomNav?.visibility = View.GONE
+            }
+             /* This can be included if we want the navbar to appear before loading finishes.
+             The issue is that it jumps down from above the keyboard, to the bottom of the screen
+             Felt more jarring than only reappearing after loading.
+
+             else if (newState == SearchView.TransitionState.HIDDEN) {
+                bottomNav?.visibility = View.VISIBLE
+            }
+             */
+        }
 
         searchView
             .editText
@@ -76,6 +94,7 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
             } else {
                 booksRecyclerView.visibility = View.VISIBLE
                 loadingIndicator.visibility = View.INVISIBLE
+                bottomNav?.visibility = View.VISIBLE
             }
 
 
