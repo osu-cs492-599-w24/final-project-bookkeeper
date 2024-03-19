@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -52,21 +53,24 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
 
         searchBar = view.findViewById(R.id.search_bar)
         searchView = view.findViewById(R.id.search_view)
+        val appBar: MaterialToolbar? = activity?.findViewById(R.id.top_app_bar)
         val bottomNav: BottomNavigationView? = activity?.findViewById(R.id.bottom_nav)
 
         // Hide bottom navbar after clicking on searchbar
         searchView.addTransitionListener { _, _, newState ->
             if (newState == SearchView.TransitionState.SHOWING) {
+                appBar?.visibility = View.GONE
                 bottomNav?.visibility = View.GONE
-            }
-             /* This can be included if we want the navbar to appear before loading finishes.
-             The issue is that it jumps down from above the keyboard, to the bottom of the screen
-             Felt more jarring than only reappearing after loading.
+            } else if (newState == SearchView.TransitionState.HIDDEN) {
+                appBar?.visibility = View.VISIBLE
+                /* This can be included if we want the navbar to appear before loading finishes.
+                The issue is that it jumps down from above the keyboard, to the bottom of the screen
+                Felt more jarring than only reappearing after loading.
 
-             else if (newState == SearchView.TransitionState.HIDDEN) {
                 bottomNav?.visibility = View.VISIBLE
             }
              */
+            }
         }
 
         searchView
