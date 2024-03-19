@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import edu.oregonstate.cs492.bookkeeper.data.LibraryRepository
+import edu.oregonstate.cs492.bookkeeper.data.Note
 import edu.oregonstate.cs492.bookkeeper.data.NotesRepository
 import kotlinx.coroutines.launch
 

@@ -27,11 +27,8 @@
             android:id="@+id/action_libraryFragment_to_bookDetailFragment"
             app:destination="@id/bookDetailFragment">
             <argument
-                android:name="bookTitle"
-                app:argType="string" />
-            <argument
-                android:name="bookAuthor"
-                app:argType="string" />
+                android:name="bookDetails"
+                app:argType="edu.oregonstate.cs492.bookkeeper.data.LibraryBook" />
         </action>
     </fragment>
 
@@ -39,7 +36,7 @@
     <fragment
         android:id="@+id/browse_books_fragment"
         android:name="edu.oregonstate.cs492.bookkeeper.ui.BrowseBooksFragment"
-        android:label="@string/label_browse_books" />
+        android:label="@string/label_book_detail" />
 
     <!-- Book Detail Fragment -->
     <fragment

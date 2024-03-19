@@ -68,7 +68,7 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
 //    }
 
     private fun onLibraryBookClick(book: LibraryBook) {
-        val action = LibraryFragmentDirections.actionLibraryFragmentToBookDetailFragment(book.title, book.author)
+        val action = LibraryFragmentDirections.actionLibraryFragmentToBookDetailFragment(book)
         findNavController().navigate(action)
     }
 
