@@ -1,5 +1,7 @@
 package edu.oregonstate.cs492.bookkeeper.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -26,7 +28,7 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     private val libraryViewModel: LibraryViewModel by viewModels()
     private lateinit var libraryBooks: List<LibraryBook>
 
-    private val browseBooksAdapter = BrowseBooksAdapter(emptyList(), ::onBookClick, ::setButtonText)
+    private val browseBooksAdapter = BrowseBooksAdapter(emptyList(), ::onBookClick, ::setButtonText, ::onCartClick)
     private lateinit var booksRecyclerView: RecyclerView
     private lateinit var searchBar: SearchBar
     private lateinit var searchView: SearchView
@@ -149,6 +151,18 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
             Snackbar.make(
                 requireView(),
                 Html.fromHtml("<i>${book.title}</i> $snackbarMessage"),
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun onCartClick(book: Book) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(book.amazonLink)))
+        } catch (e: Exception) {
+            Snackbar.make(
+                requireView(),
+                "Error opening link in browser",
                 Snackbar.LENGTH_LONG
             ).show()
         }
