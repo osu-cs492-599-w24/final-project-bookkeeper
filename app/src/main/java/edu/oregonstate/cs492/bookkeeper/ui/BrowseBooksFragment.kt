@@ -4,22 +4,24 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.Html
-import android.text.SpannableString
-import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
+import com.google.android.material.snackbar.Snackbar
 import edu.oregonstate.cs492.bookkeeper.R
 import edu.oregonstate.cs492.bookkeeper.data.Book
 import edu.oregonstate.cs492.bookkeeper.data.BookSearch
 import edu.oregonstate.cs492.bookkeeper.data.LibraryBook
+import edu.oregonstate.cs492.bookkeeper.util.LoadingStatus
 
 
 class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
@@ -30,8 +32,12 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
 
     private val browseBooksAdapter = BrowseBooksAdapter(emptyList(), ::onBookClick, ::setButtonText, ::onCartClick)
     private lateinit var booksRecyclerView: RecyclerView
+    private val recentSearchAdapter = RecentSearchAdapter(emptyList(), ::onRecentSearchClick)
+
     private lateinit var searchBar: SearchBar
     private lateinit var searchView: SearchView
+    private lateinit var loadingIndicator: CircularProgressIndicator
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,17 +47,44 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
         booksRecyclerView.adapter = browseBooksAdapter
         booksRecyclerView.layoutManager = LinearLayoutManager(context)
 
+        val recentSearchRecyclerView = view.findViewById<RecyclerView>(R.id.recent_search_recycler_view)
+        recentSearchRecyclerView.adapter = recentSearchAdapter
+        recentSearchRecyclerView.layoutManager = LinearLayoutManager(context)
+
         searchBar = view.findViewById(R.id.search_bar)
         searchView = view.findViewById(R.id.search_view)
+        val appBar: MaterialToolbar? = activity?.findViewById(R.id.top_app_bar)
+        val bottomNav: BottomNavigationView? = activity?.findViewById(R.id.bottom_nav)
+
+        // Hide bottom navbar after clicking on searchbar
+        searchView.addTransitionListener { _, _, newState ->
+            if (newState == SearchView.TransitionState.SHOWING) {
+                appBar?.visibility = View.GONE
+                bottomNav?.visibility = View.GONE
+            } else if (newState == SearchView.TransitionState.HIDDEN) {
+                appBar?.visibility = View.VISIBLE
+                /* This can be included if we want the navbar to appear before loading finishes.
+                The issue is that it jumps down from above the keyboard, to the bottom of the screen
+                Felt more jarring than only reappearing after loading.
+
+                bottomNav?.visibility = View.VISIBLE
+            }
+             */
+            }
+        }
 
         searchView
             .editText
             .setOnEditorActionListener { _, _, _ ->
-                searchBar.setText(searchView.text)
+                val searchQuery = searchView.text.toString()
+                searchBar.setText(searchQuery)
                 searchView.hide()
-                viewModel.loadSearchResults(searchView.text.toString())
+                viewModel.loadSearchResults(searchQuery)
+                addRecentSearch(searchQuery)
                 true
             }
+
+        loadingIndicator = view.findViewById(R.id.loading_indicator)
 
 
         //observe library books in order to see if a searched book can be added or removed
@@ -64,8 +97,19 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
             browseBooksAdapter.updateBookList(searchResults?.books)
         }
 
-        viewModel.loadingStatus.observe(viewLifecycleOwner) {
-            loadingStatus -> Log.d(tag, "Loading status: $loadingStatus")
+        viewModel.loadingStatus.observe(viewLifecycleOwner) { loadingStatus ->
+            Log.d(tag, "Loading status: $loadingStatus")
+
+            if (loadingStatus == LoadingStatus.LOADING) {
+                booksRecyclerView.visibility = View.INVISIBLE
+                loadingIndicator.visibility = View.VISIBLE
+            } else {
+                booksRecyclerView.visibility = View.VISIBLE
+                loadingIndicator.visibility = View.INVISIBLE
+                bottomNav?.visibility = View.VISIBLE
+            }
+
+
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
@@ -153,5 +197,29 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
                 Snackbar.LENGTH_LONG
             ).show()
         }
+    }
+
+    private fun onRecentSearchClick(recentSearch: String) {
+        searchBar.setText(recentSearch)
+        searchView.hide()
+        viewModel.loadSearchResults(recentSearch)
+        addRecentSearch(recentSearch)
+    }
+
+    private fun addRecentSearch(searchQuery: String) {
+        val currentRecentSearches = recentSearchAdapter.getRecentSearches().toMutableList()
+
+        // Remove the search query if it already exists in the list
+        currentRecentSearches.remove(searchQuery)
+
+        // Add the new search query to the beginning of the list
+        val updatedRecentSearches = mutableListOf(searchQuery)
+        updatedRecentSearches.addAll(currentRecentSearches)
+
+
+        val maxRecentSearches = 10
+        val limitedRecentSearches = updatedRecentSearches.take(maxRecentSearches)
+
+        recentSearchAdapter.updateRecentSearches(limitedRecentSearches)
     }
 }

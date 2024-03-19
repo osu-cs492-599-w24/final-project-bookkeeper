@@ -30,6 +30,18 @@
         android:hint="@string/label_search_books_hint"
         app:layout_anchor="@id/search_bar">
         <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recent_search_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </com.google.android.material.search.SearchView>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
