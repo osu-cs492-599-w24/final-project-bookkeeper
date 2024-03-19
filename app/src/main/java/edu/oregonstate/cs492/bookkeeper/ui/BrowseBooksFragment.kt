@@ -31,6 +31,8 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
 
     private val browseBooksAdapter = BrowseBooksAdapter(emptyList(), ::onBookClick, ::setButtonText, ::onCartClick)
     private lateinit var booksRecyclerView: RecyclerView
+    private val recentSearchAdapter = RecentSearchAdapter(emptyList(), ::onRecentSearchClick)
+
     private lateinit var searchBar: SearchBar
     private lateinit var searchView: SearchView
     private lateinit var loadingIndicator: CircularProgressIndicator
@@ -43,6 +45,14 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
         booksRecyclerView = view.findViewById(R.id.books_recycler_view)
         booksRecyclerView.adapter = browseBooksAdapter
         booksRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        val recentSearchRecyclerView = view.findViewById<RecyclerView>(R.id.recent_search_recycler_view)
+        recentSearchRecyclerView.adapter = recentSearchAdapter
+        recentSearchRecyclerView.layoutManager = LinearLayoutManager(context)
+
+        // Add dummy data for recent searches
+        val dummyRecentSearches = listOf("Book 1", "Book 2", "Book 3")
+        recentSearchAdapter.updateRecentSearches(dummyRecentSearches)
 
         searchBar = view.findViewById(R.id.search_bar)
         searchView = view.findViewById(R.id.search_view)
@@ -185,5 +195,12 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
                 Snackbar.LENGTH_LONG
             ).show()
         }
+    }
+
+    // Function to handle recent search click
+    private fun onRecentSearchClick(recentSearch: String) {
+        searchBar.setText(recentSearch)
+        searchView.hide()
+        viewModel.loadSearchResults(recentSearch)
     }
 }
