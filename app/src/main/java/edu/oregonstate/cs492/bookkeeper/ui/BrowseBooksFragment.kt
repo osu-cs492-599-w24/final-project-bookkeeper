@@ -2,8 +2,6 @@ package edu.oregonstate.cs492.bookkeeper.ui
 
 import android.os.Bundle
 import android.text.Html
-import android.text.SpannableString
-import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -11,13 +9,15 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.search.SearchBar
 import com.google.android.material.search.SearchView
+import com.google.android.material.snackbar.Snackbar
 import edu.oregonstate.cs492.bookkeeper.R
 import edu.oregonstate.cs492.bookkeeper.data.Book
 import edu.oregonstate.cs492.bookkeeper.data.BookSearch
 import edu.oregonstate.cs492.bookkeeper.data.LibraryBook
+import edu.oregonstate.cs492.bookkeeper.util.LoadingStatus
 
 
 class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
@@ -30,6 +30,7 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
     private lateinit var booksRecyclerView: RecyclerView
     private lateinit var searchBar: SearchBar
     private lateinit var searchView: SearchView
+    private lateinit var loadingIndicator: CircularProgressIndicator
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,6 +52,8 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
                 true
             }
 
+        loadingIndicator = view.findViewById(R.id.loading_indicator)
+
 
         //observe library books in order to see if a searched book can be added or removed
         libraryViewModel.libraryBooks.observe(viewLifecycleOwner) { books ->
@@ -62,8 +65,18 @@ class BrowseBooksFragment : Fragment(R.layout.fragment_browse_books) {
             browseBooksAdapter.updateBookList(searchResults?.books)
         }
 
-        viewModel.loadingStatus.observe(viewLifecycleOwner) {
-            loadingStatus -> Log.d(tag, "Loading status: $loadingStatus")
+        viewModel.loadingStatus.observe(viewLifecycleOwner) { loadingStatus ->
+            Log.d(tag, "Loading status: $loadingStatus")
+
+            if (loadingStatus == LoadingStatus.LOADING) {
+                booksRecyclerView.visibility = View.INVISIBLE
+                loadingIndicator.visibility = View.VISIBLE
+            } else {
+                booksRecyclerView.visibility = View.VISIBLE
+                loadingIndicator.visibility = View.INVISIBLE
+            }
+
+
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
