@@ -5,6 +5,7 @@
     <string name="browse_button">Browse Books</string>
 
     <string name="label_home_page">Book Keeper</string>
+    <string name="label_book_detail">Book Details</string>
     <string name="label_library">Your Library</string>
     <string name="label_browse_books">Browse Books</string>
     <string name="label_search_books_hint">Search books…</string>

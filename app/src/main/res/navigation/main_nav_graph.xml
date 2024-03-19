@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/home_page">
 
@@ -21,7 +22,18 @@
     <fragment
         android:id="@+id/library_fragment"
         android:name="edu.oregonstate.cs492.bookkeeper.ui.LibraryFragment"
-        android:label="@string/label_library" />
+        android:label="@string/label_library">
+        <action
+            android:id="@+id/action_libraryFragment_to_bookDetailFragment"
+            app:destination="@id/bookDetailFragment">
+            <argument
+                android:name="bookTitle"
+                app:argType="string" />
+            <argument
+                android:name="bookAuthor"
+                app:argType="string" />
+        </action>
+    </fragment>
 
     <!-- Browse Books Fragment -->
     <fragment
@@ -29,7 +41,17 @@
         android:name="edu.oregonstate.cs492.bookkeeper.ui.BrowseBooksFragment"
         android:label="@string/label_browse_books" />
 
-    <!-- Assuming you have a search page, add it as well -->
+    <!-- Book Detail Fragment -->
+    <fragment
+        android:id="@+id/bookDetailFragment"
+        android:name="edu.oregonstate.cs492.bookkeeper.ui.BookDetailFragment"
+        android:label="@string/label_book_detail"
+        tools:layout="@layout/fragment_book_detail">
+        <argument
+            android:name="bookDetails"
+            app:argType="edu.oregonstate.cs492.bookkeeper.data.LibraryBook"/>
+    </fragment>
+
     <!-- Search Fragment -->
     <fragment
         android:id="@+id/search_fragment"
