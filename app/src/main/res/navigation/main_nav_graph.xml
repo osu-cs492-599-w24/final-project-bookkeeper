@@ -4,31 +4,36 @@
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/home_page">
 
-
+    <!-- Home Page Fragment -->
     <fragment
         android:id="@+id/home_page"
         android:name="edu.oregonstate.cs492.bookkeeper.ui.HomePageFragment"
         android:label="@string/label_home_page" >
-
         <action
             android:id="@+id/navigate_to_library"
-            app:destination="@id/library" />
-
+            app:destination="@id/library_fragment" />
         <action
             android:id="@+id/navigate_to_browse_books"
-            app:destination="@id/browse_books" />
+            app:destination="@id/browse_books_fragment" />
     </fragment>
 
+    <!-- Library Fragment (Your Library) -->
     <fragment
-        android:id="@+id/library"
+        android:id="@+id/library_fragment"
         android:name="edu.oregonstate.cs492.bookkeeper.ui.LibraryFragment"
-        android:label="@string/label_library" >
-    </fragment>
+        android:label="@string/label_library" />
 
+    <!-- Browse Books Fragment -->
     <fragment
-        android:id="@+id/browse_books"
+        android:id="@+id/browse_books_fragment"
         android:name="edu.oregonstate.cs492.bookkeeper.ui.BrowseBooksFragment"
-        android:label="@string/label_browse_books" >
-    </fragment>
+        android:label="@string/label_browse_books" />
 
+    <!-- Assuming you have a search page, add it as well -->
+    <!-- Search Fragment -->
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="edu.oregonstate.cs492.bookkeeper.ui.BrowseBooksFragment"
+        android:label="@string/label_browse_books" />
 </navigation>
+

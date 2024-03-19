@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/browse_books_fragment"
+        android:title="@string/label_browse_books"
+        android:icon="@drawable/baseline_library_books_24" />
+    <item
+        android:id="@+id/home_page"
+        android:title="@string/label_home_page"
+        android:icon="@drawable/baseline_home_24" />
+    <item
+        android:id="@+id/library_fragment"
+        android:title="@string/label_library"
+        android:icon="@drawable/baseline_book_24" />
+</menu>
