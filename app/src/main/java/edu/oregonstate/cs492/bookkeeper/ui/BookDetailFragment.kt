@@ -5,43 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import edu.oregonstate.cs492.bookkeeper.data.LibraryBook
-import edu.oregonstate.cs492.bookkeeper.databinding.FragmentBookDetailBinding // Make sure this matches the name of your layout file
+import edu.oregonstate.cs492.bookkeeper.databinding.FragmentBookDetailBinding
 import androidx.fragment.app.viewModels
 import edu.oregonstate.cs492.bookkeeper.R
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import edu.oregonstate.cs492.bookkeeper.data.AppDatabase
 import edu.oregonstate.cs492.bookkeeper.data.LibraryRepository
 import edu.oregonstate.cs492.bookkeeper.data.NotesRepository
-import edu.oregonstate.cs492.bookkeeper.data.AppDatabase
-
-
-//class BookDetailFragment : Fragment() {
-//
-//    private var _binding: FragmentBookDetailBinding? = null
-//    private val binding get() = _binding!!
-//
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-//        _binding = FragmentBookDetailBinding.inflate(inflater, container, false)
-//        return binding.root
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        val book = arguments?.getSerializable("bookDetails") as? LibraryBook
-//
-//        book?.let {
-//            binding.bookTitleText.text = it.title
-//            binding.bookAuthorText.text = it.author
-//            // Populate other views in your layout similarly
-//        }
-//    }
-//
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null // This is to avoid memory leaks
-//    }
-//}
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
 class BookDetailFragment : Fragment() {
 
@@ -63,27 +36,20 @@ class BookDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bookTitle = arguments?.getString("bookTitle")
-        val bookAuthor = arguments?.getString("bookAuthor")
+        // Retrieve the LibraryBook object from the fragment's arguments.
+        val book = arguments?.getSerializable("bookDetails") as? LibraryBook
 
-        bookTitle?.let { title ->
-            bookAuthor?.let { author ->
-                viewModel.getBookDetails(title, author).observe(viewLifecycleOwner) { book ->
-                    binding.bookTitleText.text = book?.title ?: "Unknown Title"
-                    binding.bookAuthorText.text = book?.author ?: "Unknown Author"
-                    // Update additional views for book details here if necessary
-                }
+        book?.let {
+            // Update UI elements with the book details.
+            binding.bookTitleText.text = it.title
+            binding.bookAuthorText.text = it.author
 
-                viewModel.getNotesByBook(title, author).observe(viewLifecycleOwner) { notes ->
-                    // Implement notes display logic here, e.g., update a RecyclerView
-                }
-            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _binding = null  // Clear the binding when the view is destroyed.
     }
 }
 
