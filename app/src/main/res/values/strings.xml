@@ -12,8 +12,6 @@
     <string name="label_browse_books">Browse Books</string>
     <string name="label_search_books_hint">Search books…</string>
 
-    <string name="label_search_library_hint">Search library…</string>
-
     <string name="pages_read_button_text">Pages Read:\n%1$d/%2$d</string>
 
 

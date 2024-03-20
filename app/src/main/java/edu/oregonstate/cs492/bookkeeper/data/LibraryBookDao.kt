@@ -24,9 +24,6 @@ interface LibraryBookDao {
     @Query("SELECT * FROM library WHERE title = :title AND author = :author")
     fun getBook(title: String, author: String) : Flow<LibraryBook>
 
-//    @Query("SELECT * FROM library WHERE title LIKE '%' || :query || '%' OR author LIKE '%' || :query || '%'")
-//    fun getBookByTitleOrAuthor(query: String) : Flow<List<LibraryBook>>
-
     @Query("SELECT * FROM library WHERE title LIKE '%' || :query || '%' OR author LIKE '%' || :query || '%'")
     fun getBookByTitleOrAuthor(query: String) : Flow<List<LibraryBook>>
 
