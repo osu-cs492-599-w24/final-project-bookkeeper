@@ -26,4 +26,16 @@ class BookDetailViewModel(
     fun deleteNote(note: Note) = viewModelScope.launch {
         notesRepository.deleteNote(note)
     }
+
+    fun updatePages(title: String, author: String, pagesRead: Int, pageCount: Int) {
+        viewModelScope.launch {
+            libraryRepository.updatePages(title, author, pagesRead, pageCount)
+        }
+    }
+
+    fun removeBook(title: String, author: String) {
+        viewModelScope.launch {
+            libraryRepository.deleteBook(title, author)
+        }
+    }
 }

@@ -1,0 +1,77 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="8dp">
+
+    <!-- Pages read -->
+    <TextView
+        android:id="@+id/pages_read_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:text="Pages Read"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/pages_read_et"
+        />
+
+    <EditText
+        android:id="@+id/pages_read_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:hint="50"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@id/pages_read_tv"
+        app:layout_constraintBottom_toTopOf="@id/total_pages_tv"/>
+
+    <!-- Total pages -->
+    <TextView
+        android:id="@+id/total_pages_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:text="Total Pages"
+        app:layout_constraintTop_toBottomOf="@id/pages_read_et"
+        app:layout_constraintBottom_toTopOf="@id/pages_read_et"
+        />
+
+    <EditText
+        android:id="@+id/total_pages_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="500"
+        app:layout_constraintTop_toBottomOf="@id/total_pages_tv"
+        app:layout_constraintBottom_toTopOf="@id/cancel_pages"/>
+
+
+
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/cancel_pages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/save_pages"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/total_pages_et"/>
+
+    <Button
+        android:id="@+id/save_pages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Save"
+        app:layout_constraintStart_toEndOf="@id/cancel_pages"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/total_pages_et"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
