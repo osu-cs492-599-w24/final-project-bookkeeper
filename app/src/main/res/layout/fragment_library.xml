@@ -3,13 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <com.google.android.material.search.SearchBar
+        android:id="@+id/search_library_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/label_search_library_hint"
+        android:layout_margin="8dp" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/library_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         />
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_library_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/label_search_library_hint"
+        app:layout_anchor="@id/search_library_bar">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recent_search_library_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.search.SearchView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
