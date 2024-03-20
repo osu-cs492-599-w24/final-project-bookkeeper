@@ -19,6 +19,9 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun searchNotes(query: String) =
+        repository.searchNotes(query).asLiveData()
+
     fun deleteNote(note: Note) {
         viewModelScope.launch {
             repository.deleteNote(note)

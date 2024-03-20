@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -22,7 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
+import com.google.android.material.search.SearchBar
 import edu.oregonstate.cs492.bookkeeper.data.Note
 
 class BookDetailFragment : Fragment() {
@@ -98,6 +99,25 @@ class BookDetailFragment : Fragment() {
         viewModel.getBookDetails(book.title, book.author).observe(viewLifecycleOwner) { updatedBook ->
             book = updatedBook
         }
+
+        val searchView = view.findViewById<SearchView>(R.id.notes_search_view)
+
+
+        // set up search bar/change listener
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                query?.let { queryString ->
+                    notesViewModel.searchNotes(queryString).observe(viewLifecycleOwner) {notes ->
+                        notesAdapter.updateNotesList(notes)
+                    }
+                }
+                return true
+            }
+        })
     }
 
     override fun onDestroyView() {

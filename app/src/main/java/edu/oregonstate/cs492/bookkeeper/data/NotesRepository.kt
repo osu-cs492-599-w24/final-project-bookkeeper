@@ -1,5 +1,7 @@
 package edu.oregonstate.cs492.bookkeeper.data
 
+import androidx.lifecycle.asLiveData
+
 class NotesRepository (
     private val dao: NoteDao
 ) {
@@ -10,4 +12,6 @@ class NotesRepository (
     fun getNotesByBook(title: String, author: String) = dao.getNotesByBook(title, author)
 
     fun getAllNotes() = dao.getAllNotes()
+
+    fun searchNotes(query: String) = dao.searchNotes(query)
 }
