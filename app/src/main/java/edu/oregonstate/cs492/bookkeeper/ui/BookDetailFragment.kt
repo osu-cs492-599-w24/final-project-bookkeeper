@@ -43,7 +43,20 @@ class BookDetailFragment : Fragment() {
             // Update UI elements with the book details.
             binding.bookTitleText.text = it.title
             binding.bookAuthorText.text = it.author
+            binding.pagesReadText.text = getString(R.string.pages_read, it.pagesRead, it.pageCount)
 
+            Glide.with(this)
+                .load(it.coverURL)
+                .placeholder(R.drawable.baseline_book_24)  // Replace 'default_cover' with your actual placeholder image resource
+                .error(R.drawable.baseline_book_24)        // Replace 'default_cover' with your actual error image resource
+                .into(binding.bookCoverImage)
+
+            // Handle 'Add Note' button click
+            binding.addNoteButton.setOnClickListener {
+                // Here, add logic to show the note adding interface or fragment
+                // For example, you could navigate to another fragment to add a note:
+                // findNavController().navigate(R.id.action_bookDetailFragment_to_addNoteFragment)
+            }
         }
     }
 
