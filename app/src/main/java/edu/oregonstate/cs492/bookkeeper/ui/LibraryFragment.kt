@@ -5,12 +5,15 @@ import android.util.Log
 import android.view.View
 import android.widget.GridLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.oregonstate.cs492.bookkeeper.R
 import edu.oregonstate.cs492.bookkeeper.data.LibraryBook
 import edu.oregonstate.cs492.bookkeeper.data.Note
+import androidx.navigation.fragment.findNavController
+
 
 class LibraryFragment : Fragment(R.layout.fragment_library) {
     private val tag: String = "LibraryFragment"
@@ -47,8 +50,26 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
         //testDbQueries()
     }
 
-    private fun onLibraryBookClick(book: LibraryBook){
-        Log.d(tag, "Book clicked: ${book.title}")
+//    private fun onLibraryBookClick(book: LibraryBook){
+//        Log.d(tag, "Book clicked: ${book.title}")
+//    }
+
+//    private fun onLibraryBookClick(book: LibraryBook) {
+//        val bundle = Bundle().apply {
+//            putSerializable("bookDetails", book)
+//        }
+//        val bookDetailFragment = BookDetailFragment().apply {
+//            arguments = bundle
+//        }
+//        parentFragmentManager.beginTransaction()
+//            .replace(R.id.nav_host_fragment, bookDetailFragment) // use your NavHostFragment ID here
+//            .addToBackStack(null)
+//            .commit()
+//    }
+
+    private fun onLibraryBookClick(book: LibraryBook) {
+        val action = LibraryFragmentDirections.actionLibraryFragmentToBookDetailFragment(book)
+        findNavController().navigate(action)
     }
 
     private fun deleteDB() {
