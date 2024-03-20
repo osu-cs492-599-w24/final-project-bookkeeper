@@ -15,8 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/pages_read_et"
-        />
+        app:layout_constraintBottom_toTopOf="@id/pages_read_et" />
 
     <EditText
         android:id="@+id/pages_read_et"
@@ -24,7 +23,6 @@
         android:layout_height="wrap_content"
         android:inputType="number"
         android:hint="50"
-        android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/pages_read_tv"
         app:layout_constraintBottom_toTopOf="@id/total_pages_tv"/>
 
@@ -37,8 +35,7 @@
         android:textStyle="bold"
         android:text="Total Pages"
         app:layout_constraintTop_toBottomOf="@id/pages_read_et"
-        app:layout_constraintBottom_toTopOf="@id/pages_read_et"
-        />
+        app:layout_constraintBottom_toTopOf="@id/total_pages_et" />
 
     <EditText
         android:id="@+id/total_pages_et"
@@ -49,29 +46,32 @@
         app:layout_constraintTop_toBottomOf="@id/total_pages_tv"
         app:layout_constraintBottom_toTopOf="@id/cancel_pages"/>
 
-
-
     <!-- Buttons -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_pages"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="Cancel"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:strokeColor="@color/red"
+        android:textColor="@color/red"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/save_pages"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/total_pages_et"/>
+        app:layout_constraintTop_toBottomOf="@id/total_pages_et"
+        app:layout_constraintWidth_percent="0.5"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/save_pages"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="Save"
+        style="@style/Widget.MaterialComponents.Button"
+        app:backgroundTint="@color/green"
         app:layout_constraintStart_toEndOf="@id/cancel_pages"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/total_pages_et"/>
+        app:layout_constraintTop_toBottomOf="@id/total_pages_et"
+        app:layout_constraintWidth_percent="0.5"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
