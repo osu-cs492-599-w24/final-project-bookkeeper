@@ -44,6 +44,9 @@ class BookDetailFragment : Fragment() {
             binding.bookTitleText.text = it.title
             binding.bookAuthorText.text = it.author
             binding.pagesReadText.text = getString(R.string.pages_read, it.pagesRead, it.pageCount)
+            // Now set the rating and summary
+            binding.bookRatingBar.rating = it.rating ?: 0.0f // Assuming 'rating' is a Float, replace with default if null
+            //binding.bookSummaryText.text = it.summary ?: getString(R.string.default_summary) // Assuming 'summary' is a String
 
             Glide.with(this)
                 .load(it.coverURL)
