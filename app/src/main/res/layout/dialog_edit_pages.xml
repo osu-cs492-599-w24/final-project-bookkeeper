@@ -22,7 +22,7 @@
         android:id="@+id/pages_read_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
+        android:inputType="number"
         android:hint="50"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/pages_read_tv"
