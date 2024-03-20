@@ -58,6 +58,7 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
                 bottomNav?.visibility = View.GONE
             } else if (newState == SearchView.TransitionState.HIDDEN) {
                 appBar?.visibility = View.VISIBLE
+                bottomNav?.visibility = View.VISIBLE
             }
         }
 
