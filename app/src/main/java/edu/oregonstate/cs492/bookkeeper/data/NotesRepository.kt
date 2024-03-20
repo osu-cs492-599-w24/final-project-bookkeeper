@@ -5,7 +5,7 @@ class NotesRepository (
 ) {
     suspend fun insertNote(note: Note) = dao.insert(note)
 
-    suspend fun deleteNote(note: Note) = dao.insert(note)
+    suspend fun deleteNote(note: Note) = dao.delete(note)
 
     fun getNotesByBook(title: String, author: String) = dao.getNotesByBook(title, author)
 

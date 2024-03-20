@@ -14,4 +14,7 @@ class LibraryRepository (
 
     fun getAllBooks() = dao.getAllBooks()
     fun getBookByTitleOrAuthor(query: String) = dao.getBookByTitleOrAuthor(query)
+
+    suspend fun updatePages(title: String, author: String, pagesRead: Int, pageCount: Int) =
+        dao.updatePages(title, author, pagesRead, pageCount)
 }
