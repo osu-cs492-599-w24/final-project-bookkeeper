@@ -50,26 +50,8 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
         //testDbQueries()
     }
 
-//    private fun onLibraryBookClick(book: LibraryBook){
-//        Log.d(tag, "Book clicked: ${book.title}")
-//    }
-
-//    private fun onLibraryBookClick(book: LibraryBook) {
-//        val bundle = Bundle().apply {
-//            putSerializable("bookDetails", book)
-//        }
-//        val bookDetailFragment = BookDetailFragment().apply {
-//            arguments = bundle
-//        }
-//        parentFragmentManager.beginTransaction()
-//            .replace(R.id.nav_host_fragment, bookDetailFragment) // use your NavHostFragment ID here
-//            .addToBackStack(null)
-//            .commit()
-//    }
-
-    private fun onLibraryBookClick(book: LibraryBook) {
-        val action = LibraryFragmentDirections.actionLibraryFragmentToBookDetailFragment(book)
-        findNavController().navigate(action)
+    private fun onLibraryBookClick(book: LibraryBook){
+        Log.d(tag, "Book clicked: ${book.title}")
     }
 
     private fun deleteDB() {
