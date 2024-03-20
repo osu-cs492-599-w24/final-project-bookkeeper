@@ -31,9 +31,6 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
     private val libraryAdapter = LibraryAdapter(emptyList(), ::onLibraryBookClick)
     private val librarySearchAdapter = LibrarySearchAdapter(emptyList(), ::onRecentSearchClick)
     private  lateinit var libraryRecyclerView: RecyclerView
-
-
-
     private lateinit var searchBar: SearchBar
     private lateinit var searchView: SearchView
 
@@ -69,10 +66,10 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
             searchBar.setText(searchQuery)
             searchView.hide()
             Log.d(tag, "Lib Query: $searchQuery")
-            val books = viewModel.getBookByTitleOrAuthor(searchQuery)
-            Log.d(tag, "Books found: ${books.value}")
-            books.value?.forEach { book ->
-                Log.d(tag, "Book: ${book.title}")
+            viewModel.getBookByTitleOrAuthor(searchQuery).observe(viewLifecycleOwner) {
+                books ->
+                libraryAdapter.updateLibraryList(books)
+                Log.d(tag, "books: $books")
             }
             addRecentSearch(searchQuery)
             true
