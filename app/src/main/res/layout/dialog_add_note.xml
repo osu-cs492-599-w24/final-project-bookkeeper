@@ -39,35 +39,38 @@
 
 
     <!-- Buttons -->
-
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="Cancel"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:strokeColor="@color/red"
+        android:textColor="@color/red"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/save_note"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scrollview"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/save_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="Save"
+        style="@style/Widget.MaterialComponents.Button"
+        app:backgroundTint="@color/green"
         app:layout_constraintStart_toEndOf="@id/cancel_note"
         app:layout_constraintEnd_toStartOf="@id/delete_note"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scrollview"/>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/delete_note"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="Delete"
+        style="@style/Widget.MaterialComponents.Button"
+        app:backgroundTint="@color/red"
         app:layout_constraintStart_toEndOf="@id/save_note"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

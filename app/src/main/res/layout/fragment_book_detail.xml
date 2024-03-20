@@ -57,20 +57,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
+                    android:text="Pages read: 200/567"
                     android:paddingStart="6dp"
                     android:paddingEnd="6dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Pages read: 200/567" />
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/delete_book_button"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     app:icon="@drawable/baseline_delete_24"
-                    app:iconGravity="top" />
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/red"
+                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"/>
             </LinearLayout>
-
-
         </LinearLayout>
 
         <ImageView
@@ -101,7 +102,6 @@
             android:background="@drawable/background_searchbar"
             android:layout_margin="8dp"
             app:iconifiedByDefault="false"
-
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -113,8 +113,8 @@
             android:layout_width="38dp"
             android:layout_height="38dp"
             app:icon="@drawable/add_book"
-            app:iconGravity="top"
-            android:layout_margin="8dp"
+            app:iconGravity="textTop"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:layout_constraintStart_toEndOf="@id/notes_search_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

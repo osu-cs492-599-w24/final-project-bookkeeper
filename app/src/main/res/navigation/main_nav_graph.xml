@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/browse_books_fragment"
         android:name="edu.oregonstate.cs492.bookkeeper.ui.BrowseBooksFragment"
-        android:label="@string/label_book_detail" />
+        android:label="@string/label_browse_books" />
 
     <!-- Book Detail Fragment -->
     <fragment
@@ -55,4 +55,3 @@
         android:name="edu.oregonstate.cs492.bookkeeper.ui.BrowseBooksFragment"
         android:label="@string/label_browse_books" />
 </navigation>
-
